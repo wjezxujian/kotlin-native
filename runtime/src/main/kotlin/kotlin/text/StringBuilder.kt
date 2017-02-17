@@ -10,7 +10,6 @@ external fun fromCharArray(array: CharArray, start: Int, size: Int) : String
 @SymbolName("Kotlin_String_toCharArray")
 external fun toCharArray(string: String) : CharArray
 
-
 class StringBuilder private constructor (
         private var array: CharArray
 ) : CharSequence, Appendable {
@@ -73,7 +72,7 @@ class StringBuilder private constructor (
     override fun append(csq: CharSequence?, start: Int, end: Int): Appendable {
         // TODO: how to treat nulls properly?
         if (csq == null) return this
-        ensureExtraCapacity(end - start)
+        ensureExtraCapacity(end - start + 1)
         var index = start
         while (index < end)
             array[length++] = csq[index++]

@@ -154,8 +154,8 @@ OBJ_GETTER(Kotlin_CharArray_clone, KConstRef thiz) {
 
 OBJ_GETTER(Kotlin_CharArray_copyOf, KConstRef thiz, KInt newSize) {
   const ArrayHeader* array = thiz->array();
-  ArrayHeader* result =  AllocArrayInstance(
-      array->type_info(), array->count_, OBJ_RESULT)->array();
+  ArrayHeader* result = AllocArrayInstance(
+      array->type_info(), newSize, OBJ_RESULT)->array();
   KInt toCopy = array->count_ < newSize ?  array->count_ : newSize;
   memcpy(
       PrimitiveArrayAddressOfElementAt<KChar>(result, 0),
