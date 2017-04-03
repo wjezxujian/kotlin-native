@@ -367,16 +367,12 @@ internal class IrDescriptorDeserializer(val context: Context,
         } as? DeserializedSimpleFunctionDescriptor
         if (match != null) return match
 
-//println("NO MATCH")
-
-//println(functions.map {it->(it as FunctionDescriptor).isFunctionInvoke})
-
         // Special case: for invoke we need to re-synthesize 
         // the invoke() descriptor.
         val invoke = functions.singleOrNull {
             (it as FunctionDescriptor).isFunctionInvoke ?: false
         }
- //       println("GOT INVOKE: $invoke")
+
         if (invoke != null) 
                 return createSynthesizedInvokes(listOf(invoke as FunctionDescriptor)).single() as DeserializedSimpleFunctionDescriptor
         else {
@@ -384,8 +380,6 @@ internal class IrDescriptorDeserializer(val context: Context,
             functions.map{it -> println(it)}
             error("Could not find matching descriptor")
         }
-
-
     }
 
     fun selectConstructor(
