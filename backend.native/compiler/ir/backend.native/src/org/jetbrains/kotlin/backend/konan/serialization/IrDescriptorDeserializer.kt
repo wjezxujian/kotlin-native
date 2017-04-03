@@ -21,6 +21,7 @@ import org.jetbrains.kotlin.backend.konan.descriptors.contributedMethods
 import org.jetbrains.kotlin.backend.konan.descriptors.isFunctionInvoke
 import org.jetbrains.kotlin.backend.konan.KonanIrDeserializationException
 import org.jetbrains.kotlin.backend.konan.llvm.base64Decode
+import org.jetbrains.kotlin.backend.konan.llvm.symbolName
 import org.jetbrains.kotlin.descriptors.*
 import org.jetbrains.kotlin.incremental.components.NoLookupLocation
 import org.jetbrains.kotlin.ir.expressions.IrLoop
@@ -357,7 +358,6 @@ internal class IrDescriptorDeserializer(val context: Context,
         functions: Collection<DeclarationDescriptor>,
         descriptorProto: KonanIr.KotlinDescriptor):
         DeserializedSimpleFunctionDescriptor {
- //       println("selected: $functions")
 
         val originalIndex = descriptorProto.originalIndex
         val match = functions.singleOrNull() {
@@ -379,7 +379,12 @@ internal class IrDescriptorDeserializer(val context: Context,
  //       println("GOT INVOKE: $invoke")
         if (invoke != null) 
                 return createSynthesizedInvokes(listOf(invoke as FunctionDescriptor)).single() as DeserializedSimpleFunctionDescriptor
-        else error("Could not find matching descriptor")
+        else {
+            functions.map{it -> println((it as FunctionDescriptor).symbolName)}
+            functions.map{it -> println(it)}
+            error("Could not find matching descriptor")
+        }
+
 
     }
 
