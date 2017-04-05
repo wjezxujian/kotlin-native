@@ -18,11 +18,14 @@ package org.jetbrains.kotlin.backend.konan.serialization
 
 import org.jetbrains.kotlin.backend.konan.Context
 import org.jetbrains.kotlin.backend.konan.descriptors.contributedMethods
+import org.jetbrains.kotlin.backend.konan.descriptors.isFunctionInvoke
+import org.jetbrains.kotlin.backend.konan.KonanIrDeserializationException
 import org.jetbrains.kotlin.backend.konan.llvm.base64Decode
 import org.jetbrains.kotlin.descriptors.*
 import org.jetbrains.kotlin.incremental.components.NoLookupLocation
 import org.jetbrains.kotlin.ir.expressions.IrLoop
 import org.jetbrains.kotlin.name.Name
+import org.jetbrains.kotlin.resolve.calls.tasks.*
 import org.jetbrains.kotlin.resolve.scopes.MemberScope
 import org.jetbrains.kotlin.serialization.KonanIr
 import org.jetbrains.kotlin.serialization.KonanIr.KotlinDescriptor
@@ -353,12 +356,30 @@ internal class IrDescriptorDeserializer(val context: Context,
         functions: Collection<DeclarationDescriptor>,
         descriptorProto: KonanIr.KotlinDescriptor):
         DeserializedSimpleFunctionDescriptor {
+ //       println("selected: $functions")
 
         val originalIndex = descriptorProto.originalIndex
-        return functions.single() {
+        val match = functions.singleOrNull() {
             val proto = (it as DeserializedSimpleFunctionDescriptor).proto
+            println("${proto.getExtension(KonanLinkData.functionIndex)} =? ${originalIndex}")
             proto.getExtension(KonanLinkData.functionIndex) == originalIndex
-        } as DeserializedSimpleFunctionDescriptor
+        } as? DeserializedSimpleFunctionDescriptor
+        if (match != null) return match
+
+//println("NO MATCH")
+
+//println(functions.map {it->(it as FunctionDescriptor).isFunctionInvoke})
+
+        // Special case: for invoke we need to re-synthesize 
+        // the invoke() descriptor.
+        val invoke = functions.singleOrNull {
+            (it as FunctionDescriptor).isFunctionInvoke ?: false
+        }
+ //       println("GOT INVOKE: $invoke")
+        if (invoke != null) 
+                return createSynthesizedInvokes(listOf(invoke as FunctionDescriptor)).single() as DeserializedSimpleFunctionDescriptor
+        else error("Could not find matching descriptor")
+
     }
 
     fun selectConstructor(
