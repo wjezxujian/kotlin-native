@@ -188,23 +188,7 @@ internal val ValueParameterDescriptor.symbolName: String
         }
         return "kvalueparam:$containingDeclarationPart$name"
     }
-/*
-internal val ExtensionReceiverParameterDescriptor.symbolName: String
-    get() {
-        val containingDeclarationPart = containingDeclaration.fqNameSafe.let {
-            if (it.isRoot) "" else "$it."
-        }
-        return "kereceiver:$containingDeclarationPart$name"
-    }
 
-internal val DispatchReceiverParameterDescriptor.symbolName: String
-    get() {
-        val containingDeclarationPart = containingDeclaration.fqNameSafe.let {
-            if (it.isRoot) "" else "$it."
-        }
-        return "kdreceiver:$containingDeclarationPart$name"
-    }
-*/
 private fun getStringValue(annotation: AnnotationDescriptor): String? {
     annotation.allValueArguments.values.ifNotEmpty {
         val stringValue = this.single() as StringValue

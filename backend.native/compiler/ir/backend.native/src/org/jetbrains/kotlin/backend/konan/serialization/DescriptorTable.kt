@@ -29,23 +29,21 @@ import org.jetbrains.kotlin.backend.konan.llvm.typeInfoSymbolName
 import org.jetbrains.kotlin.backend.konan.llvm.symbolName
 import org.jetbrains.kotlin.backend.konan.llvm.localHash
 
-// TODO: We take Long hash .toInt() here. 
-// Make it long all the way down to the protobuf?
-internal fun DeclarationDescriptor.uniqId(): Int = when (this) {
+internal fun DeclarationDescriptor.uniqId(): Long = when (this) {
     is FunctionDescriptor -> {
-        this.symbolName.localHash.value.toInt()
+        this.symbolName.localHash.value
     }
     is PropertyDescriptor -> {
-        this.symbolName.localHash.value.toInt()
+        this.symbolName.localHash.value
     }
     is TypeParameterDescriptor -> {
-        this.symbolName.localHash.value.toInt()
+        this.symbolName.localHash.value
     }
     is ValueParameterDescriptor -> {
-        this.symbolName.localHash.value.toInt()
+        this.symbolName.localHash.value
     }
     is ClassDescriptor -> {
-        this.typeInfoSymbolName.localHash.value.toInt()
+        this.typeInfoSymbolName.localHash.value
     }
     else -> error("Unexpected exported descriptor: $this") 
 }
@@ -59,19 +57,19 @@ internal fun DeclarationDescriptor.uniqId(): Int = when (this) {
 // dependant on something like FunctionDescriptor.functionName
 class DescriptorTable(val builtIns: IrBuiltIns) {
 
-    val table = mutableMapOf<DeclarationDescriptor, Int>()
-    var currentIndex = 0
+    val table = mutableMapOf<DeclarationDescriptor, Long>()
+    var currentIndex: Long = 0L
 
     init {
         builtIns.irBuiltInDescriptors.forEachIndexed { 
             index, descriptor ->
 
-            table.put(descriptor, index)
-            currentIndex = index + 1
+            table.put(descriptor, index.toLong())
+            currentIndex = index + 1L
         }
     }
 
-    fun indexByValue(value: DeclarationDescriptor): Int {
+    fun indexByValue(value: DeclarationDescriptor): Long {
         val index = table.getOrPut(value) { 
             if (!value.isExported()) {
                 currentIndex++
@@ -85,12 +83,12 @@ class DescriptorTable(val builtIns: IrBuiltIns) {
 
 class IrDeserializationDescriptorIndex(irBuiltIns: IrBuiltIns) {
 
-    val map = mutableMapOf<Int, DeclarationDescriptor>()
+    val map = mutableMapOf<Long, DeclarationDescriptor>()
 
     init {
         irBuiltIns.irBuiltInDescriptors.forEachIndexed { 
             index, descriptor ->
-                map.put(index, descriptor)
+                map.put(index.toLong(), descriptor)
         }
     }
 
