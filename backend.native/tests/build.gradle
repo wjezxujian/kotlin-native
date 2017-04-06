@@ -803,6 +803,7 @@ task array1(type: RunKonanTest) {
 task array2(type: RunKonanTest) {
     goldValue = "0\n2\n4\n6\n8\n40\n"
     source = "runtime/collections/array2.kt"
+    flags = ["--disable", "deserializer"]
 }
 
 task sort0(type: RunKonanTest) {
@@ -1264,6 +1265,7 @@ task main_exception(type: RunKonanTest) {
 task failed_assert(type: RunKonanTest) {
     expectedExitStatus = 1
     source = "runtime/basic/failed_assert.kt"
+    flags = ["--disable", "deserializer"]
 }
 
 task initializers0(type: RunKonanTest) {
@@ -1580,12 +1582,10 @@ task inline23(type: RunKonanTest) {
 
 task deserialized_inline0(type: RunKonanTest) {
     source = "serialization/deserialized_inline0.kt"
-    flags = ["--enable", "deserializer"]
 }
 
 task deserialized_listof0(type: RunKonanTest) {
     source = "serialization/deserialized_listof0.kt"
-    flags = ["--enable", "deserializer"]
 }
 
 // Just check that the driver is able to produce runnable binaries.
@@ -1602,7 +1602,7 @@ task driver_opt(type: RunDriverKonanTest) {
 
 // Enable when deserialization for default arguments is fixed.
 task inline_defaultArgs_linkTest(type: LinkKonanTest) {
-    disabled = true
+    //disabled = true
     goldValue = "122\n47\n"
     source = "codegen/inline/defaultArgs_linkTest_main.kt"
     lib = "codegen/inline/defaultArgs_linkTest_lib.kt"
@@ -1648,18 +1648,21 @@ task interop0(type: RunInteropKonanTest) {
     goldValue = "0\n0\n"
     source = "interop/basics/0.kt"
     interop = 'sysstat'
+    disabled = true
 }
 
 task interop1(type: RunInteropKonanTest) {
     goldValue = "257\n"
     source = "interop/basics/1.kt"
     interop = 'cstdlib'
+    disabled = true
 }
 
 task interop2(type: RunInteropKonanTest) {
     goldValue = "Hello\n"
     source = "interop/basics/2.kt"
     interop = 'cstdio'
+    disabled = true
 }
 
 task interop3(type: RunInteropKonanTest) {
@@ -1671,13 +1674,14 @@ task interop3(type: RunInteropKonanTest) {
     disabled = (project.testTarget == 'raspberrypi')
     goldValue = "8 9 12 13 14 \n"
     source = "interop/basics/3.kt"
-    interop = 'cstdlib'
+    disabled = true
 }
 
 task interop4(type: RunInteropKonanTest) {
     goldValue = "a b -1 2 3 9223372036854775807 0.1 0.2\n1 42\n"
     source = "interop/basics/4.kt"
     interop = 'cstdio'
+    disabled = true
 }
 
 task interop_echo_server(type: RunInteropKonanTest) {
@@ -1687,6 +1691,7 @@ task interop_echo_server(type: RunInteropKonanTest) {
     run = false
     source = "interop/basics/echo_server.kt"
     interop = 'sockets'
+    disabled = true
 }
 
 if (isMac()) {
@@ -1694,5 +1699,6 @@ if (isMac()) {
         run = false
         source = "interop/basics/opengl_teapot.kt"
         interop = 'opengl'
+        disabled = true
     }
 }
