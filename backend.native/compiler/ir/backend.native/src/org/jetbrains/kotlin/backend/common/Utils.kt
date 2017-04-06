@@ -20,8 +20,10 @@ import org.jetbrains.kotlin.backend.jvm.JvmBackendContext
 import org.jetbrains.kotlin.backend.konan.KonanBackendContext
 import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys
 import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.common.messages.CompilerMessageLocation
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.config.CompilerConfiguration
+import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
 import org.jetbrains.kotlin.ir.IrElement
 import org.jetbrains.kotlin.ir.declarations.IrFile
 import org.jetbrains.kotlin.ir.util.getCompilerMessageLocation
@@ -39,5 +41,9 @@ val BackendContext.messageCollector: MessageCollector
 
 fun BackendContext.reportWarning(message: String, irFile: IrFile, irElement: IrElement) {
     val location = irElement.getCompilerMessageLocation(irFile)
+    this.messageCollector.report(CompilerMessageSeverity.WARNING, message, location)
+}
+fun BackendContext.reportWarning(message: String) {
+    val location = CompilerMessageLocation.NO_LOCATION
     this.messageCollector.report(CompilerMessageSeverity.WARNING, message, location)
 }
