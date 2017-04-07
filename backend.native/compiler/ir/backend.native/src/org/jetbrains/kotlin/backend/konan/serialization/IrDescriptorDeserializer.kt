@@ -408,7 +408,6 @@ internal class IrDescriptorDeserializer(val context: Context,
         val originalIndex = descriptorProto.originalIndex
         val match = functions.singleOrNull() {
             val proto = (it as DeserializedSimpleFunctionDescriptor).proto
-            println("${proto.functionIndex} =? ${originalIndex}")
             proto.functionIndex == originalIndex
         } as? DeserializedSimpleFunctionDescriptor
         if (match != null) return match
