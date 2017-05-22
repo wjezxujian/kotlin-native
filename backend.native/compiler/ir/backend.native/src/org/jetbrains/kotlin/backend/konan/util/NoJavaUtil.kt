@@ -58,6 +58,11 @@ class File(val path: String) {
     // TODO: Consider removeing these after konanazing java.util.Properties.
     fun bufferedReader() = javaFile.bufferedReader()
     fun outputStream() = javaFile.outputStream()
+
+    companion object {
+        val userDir
+            get() = File(System.getProperty("user.dir"))
+    }
 }
 
 
