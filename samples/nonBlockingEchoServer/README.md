@@ -7,9 +7,7 @@ are being suspended and resumed whenever relevant.
 Thus, while server can process multiple connections concurrently,
 each individual connection handler is written in simple linear manner.
 
-To build use:
-
-    ../gradlew build
+To build use `../gradlew build` or `./build.sh`.
 
 Run the server:
 

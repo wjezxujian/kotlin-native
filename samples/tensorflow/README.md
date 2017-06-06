@@ -15,9 +15,7 @@ showing how a TensorFlow client in Kotlin/Native could look like.
 will install [TensorFlow for C](https://www.tensorflow.org/versions/r1.1/install/install_c) into
 `$HOME/.konan/third-party/tensorflow` (if not yet done). 
 
-To build use
-
-    ../gradlew build
+To build use `../gradlew build` or `./build.sh`.
     
 Then run 
 

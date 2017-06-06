@@ -3,7 +3,7 @@
  This example shows how to communicate with libcurl, HTTP/HTTPS/FTP/etc client library.
  Debian-like distros may need to `apt-get install libcurl4-openssl-dev`.
 
-To build use `../gradlew build`.
+To build use `../gradlew build` or `./build.sh`.
 
 To run use `../gradlew run`
 

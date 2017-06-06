@@ -1,6 +1,6 @@
 # Sockets demo
 
-To build use `../gradlew build`.
+To build use `../gradlew build` or `./build.sh`.
 
 Run the server:
 

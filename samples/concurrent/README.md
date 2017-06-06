@@ -4,7 +4,7 @@ This example shows how to implement concurrent programming in Kotlin/Native.
 In this example we start multiple threads running concurrently and exchange messages with them.
 
 To build cpp use `./buildCpp.sh`.
-To build kotlin use `../gradlew build`.
+To build kotlin native use `../gradlew build` or `./build.sh`.
 
 To run use `../gradlew run`
 
