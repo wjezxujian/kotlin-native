@@ -182,6 +182,7 @@ private fun String.isSupported(): Boolean {
     return when (os) {
         "macos" -> this == "macbook" || this == "iphone"
         "linux" -> this == "linux" || this == "raspberrypi"
+        "windows" -> this == "mingw"
         else -> false
     }
 }
@@ -229,6 +230,7 @@ class KonanPlugin @Inject constructor(private val registry: ToolingModelBuilderR
         val hostTarget =  when (KonanCompilerDownloadTask.simpleOsName()) {
             "macos" -> "macbook"
             "linux" -> "linux"
+            "windows" -> "mingw"
             else -> throw IllegalStateException("Unsupported platform")
         }
         if (!project.extensions.extraProperties.has(KonanPlugin.KONAN_BUILD_TARGETS)) {

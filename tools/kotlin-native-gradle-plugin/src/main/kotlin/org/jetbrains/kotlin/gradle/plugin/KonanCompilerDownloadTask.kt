@@ -31,9 +31,10 @@ open class KonanCompilerDownloadTask : DefaultTask() {
 
         internal fun simpleOsName(): String {
             val osName = System.getProperty("os.name")
-            return when (osName) {
-                "Mac OS X" -> "macos"
-                "Linux" -> "linux"
+            return when {
+                osName == "Mac OS X" -> "macos"
+                osName == "Linux" -> "linux"
+                osName.startsWith("Windows") -> "windows"
                 else -> throw IllegalStateException("Unsupported platform: $osName")
             }
         }
